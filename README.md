@@ -1,24 +1,19 @@
 scientist
 =========
 
-```{r echo=FALSE}
-knitr::opts_chunk$set(
-  comment = "#>",
-  collapse = TRUE,
-  warning = FALSE,
-  message = FALSE
-)
-```
+
 
 An R port of the Ruby gem [scientist](https://github.com/github/scientist)
 
 ## Install
 
-```{r eval=FALSE}
+
+```r
 remotes::install_github("ropenscilabs/scientist")
 ```
 
-```{r}
+
+```r
 library(scientist)
 ```
 
