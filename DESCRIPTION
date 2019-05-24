@@ -1,0 +1,22 @@
+Package: scientist
+Title: Experiment with changes in an R project
+Description: Experiment with changes in an R project. A port of the Ruby gem
+    of the same name (<https://github.com/github/scientist/>).
+Version: 0.0.1.9100
+Authors@R: c(person("Scott", "Chamberlain", role = c("aut", "cre"),
+    email = "sckott@protonmail.com", 
+    comment = c(ORCID="0000-0003-1444-9135")))
+URL: https://github.com/ropenscilabs/scientist/
+BugReports: https://github.com/ropenscilabs/scientist/issues
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+Imports:
+    R6,
+    callr
+Suggests:
+    testthat,
+    crayon,
+    cli
+RoxygenNote: 6.1.1
