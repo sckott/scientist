@@ -18,5 +18,6 @@ Imports:
 Suggests:
     testthat,
     crayon,
-    cli
+    cli,
+    whisker
 RoxygenNote: 6.1.1

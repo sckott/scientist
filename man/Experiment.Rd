@@ -7,7 +7,11 @@
 \arguments{
 \item{name}{The name of the experiment}
 
-\item{use, try}{the use and try code blocks}
+\item{error_on_mismatch}{(logical) whether to error on mismatch of
+results. dafault: \code{FALSE}}
+
+\item{progress}{(logical) whether to turn on progress information or not,
+default: \code{TRUE}}
 }
 \value{
 an object of class \code{Experiment}
@@ -18,29 +22,134 @@ Set up an experiment
 \details{
 \strong{Methods}
 \describe{
-\item{\code{use()}}{
-use code block
+\item{\code{control(...)}}{
+control code block
 }
-\item{\code{try()}}{
-try code block
+\item{\code{candidate(...)}}{
+candidate code block
+}
+\item{\code{run()}}{
+execute code, runs \code{call_block()}, then \code{do_comparison()}
+}
+\item{\code{call_block()}}{
+execute code, and collecting timing data
+}
+\item{\code{do_comparison()}}{
+mostly an internal fxn, run after \code{call_block}
+}
+\item{\code{result()}}{
+fetch the result (named list)
+}
+\item{\code{publish(browse = TRUE)}}{
+publish results. creates an html file. if \code{browse=TRUE}
+the file opens in your default browser. if \code{browse=FALSE}
+you get a file path.
+}
+\item{\code{diff()}}{
+compare results by "diffing" in the R console. used inside of publish()
+to prepare diffs. different diff representations for different object
+types:
+\itemize{
+\item numeric/integer: take difference between 2, or matrix comparing
+> 2 results
+\item character/factor: highlight differences in strings, like git diffs
+\item data.frame/matrix: use \pkg{visdat}
+\item images: use \pkg{vdiffr}
+\item list: not sure how to do this
+\item environments: not sure how to do this
+}
+}
+\item{\code{compare(x = NULL)}}{
+set a custom comparison function, must result in a single
+boolean
+fun: a function
 }
 }
 }
+\section{Terminology}{
+
+The \code{control} block is the control, the current state of the code.
+The \code{candidate} block is the candidate, or the new version of the code
+you want to compare to the control.
+}
+
 \examples{
 library(scientist)
+
+# basic eg
 res <- Experiment$new(name = "jane")
-res$use({
+res$control({
   x = 5
   x^2
 })
-res$try({
+res$candidate({
   y = 5
-  y^2
+  y^3
 })
 res
 res$run()
-res$use_result
-res$try_result
+res$control_result
+res$candidate_results
 res$result()
+# publish results
+res$publish()
+
+# many candidates
+res <- Experiment$new(name = "doe")
+res$control(stuff = {
+  Sys.sleep(5)
+  x = 5
+  x^2
+})
+res$candidate(foo = {
+  Sys.sleep(5)
+  y = 5
+  y^3
+}, bar = {
+  Sys.sleep(5)
+  w = 1000
+  (w - 20) / 34
+})
+res
+res$run()
+res$control_result
+res$candidate_results
+res$result()
+# publish results
+res$publish()
+
+# raise errors when the control and experiment do no match
+res <- Experiment$new(name = "treetest", error_on_mismatch = TRUE)
+res$control({
+  x = 5
+  x^2
+})
+res$candidate({
+  y = 5
+  y^3
+})
+res
+\dontrun{res$run()}
+res$control_result
+res$candidate_results
+res$result()
+res$publish()
+
+# set explicit comparison
+# FIXME: not working yet
+# res <- Experiment$new(name = "jane")
+# res$control({
+#   x = 5
+#   x^2
+# })
+# res$candidate({
+#   y = 5
+#   y^2
+# })
+# res$compare(function(control, candidate) {
+#   control/2 == candidate/1
+# })
+# res$run()
+# res$result()
 }
 \keyword{datasets}
