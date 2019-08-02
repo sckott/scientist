@@ -8,10 +8,14 @@
 \item{name}{The name of the experiment}
 
 \item{error_on_mismatch}{(logical) whether to error on mismatch of
-results. dafault: \code{FALSE}}
+results. default: \code{FALSE}}
+
+\item{wait}{(logical) wait for code to execute. if \code{FALSE}, code is run in the
+background, and you have to run \code{$collect()} to collect results.
+default: \code{TRUE}}
 
 \item{progress}{(logical) whether to turn on progress information or not,
-default: \code{TRUE}}
+default: \code{TRUE} (IGNORED RIGHT NOW)}
 }
 \value{
 an object of class \code{Experiment}
@@ -28,8 +32,10 @@ control code block
 \item{\code{candidate(...)}}{
 candidate code block
 }
-\item{\code{run()}}{
+\item{\code{run(...)}}{
 execute code, runs \code{call_block()}, then \code{do_comparison()}
+\code{...}: pass on parameters through \code{call_block()} to
+\code{\link[callr:r]{callr::r()}} (\code{wait=TRUE}) or \code{\link[callr:r_bg]{callr::r_bg()}} (\code{wait=FALSE})
 }
 \item{\code{call_block()}}{
 execute code, and collecting timing data
@@ -96,17 +102,18 @@ res$publish()
 
 # many candidates
 res <- Experiment$new(name = "doe")
+res
 res$control(stuff = {
-  Sys.sleep(5)
+  Sys.sleep(2)
   x = 5
   x^2
 })
 res$candidate(foo = {
-  Sys.sleep(5)
+  Sys.sleep(2)
   y = 5
   y^3
 }, bar = {
-  Sys.sleep(5)
+  Sys.sleep(2)
   w = 1000
   (w - 20) / 34
 })
@@ -115,6 +122,7 @@ res$run()
 res$control_result
 res$candidate_results
 res$result()
+res$times
 # publish results
 res$publish()
 
@@ -134,6 +142,23 @@ res$control_result
 res$candidate_results
 res$result()
 res$publish()
+
+# if not waiting, run $status() and $collect()
+res <- Experiment$new(name = "junipers", wait = FALSE)
+res$control({
+  x = 5
+  x^2
+})
+res$candidate({
+  y = 5
+  y^3
+})
+\dontrun{res$status()}
+res$run()
+res
+res$status()
+res$collect()
+res$result()
 
 # set explicit comparison
 # FIXME: not working yet

@@ -3,9 +3,12 @@
 #' @export
 #' @param name The name of the experiment
 #' @param error_on_mismatch (logical) whether to error on mismatch of
-#' results. dafault: `FALSE`
-#' @param progress (logical) whether to turn on progress information or not,
+#' results. default: `FALSE`
+#' @param wait (logical) wait for code to execute. if `FALSE`, code is run in the
+#' background, and you have to run `$collect()` to collect results.
 #' default: `TRUE`
+#' @param progress (logical) whether to turn on progress information or not,
+#' default: `TRUE` (IGNORED RIGHT NOW)
 #' @return an object of class `Experiment`
 #'
 #' @details
@@ -17,8 +20,10 @@
 #'     \item{\code{candidate(...)}}{
 #'       candidate code block
 #'     }
-#'     \item{\code{run()}}{
+#'     \item{\code{run(...)}}{
 #'       execute code, runs `call_block()`, then `do_comparison()`
+#'       `...`: pass on parameters through `call_block()` to
+#'         [callr::r()] (`wait=TRUE`) or [callr::r_bg()] (`wait=FALSE`)
 #'     }
 #'     \item{\code{call_block()}}{
 #'       execute code, and collecting timing data
@@ -80,20 +85,21 @@
 #' res$result()
 #' # publish results
 #' res$publish()
-#' 
+#'
 #' # many candidates
 #' res <- Experiment$new(name = "doe")
+#' res
 #' res$control(stuff = {
-#'   Sys.sleep(5)
+#'   Sys.sleep(2)
 #'   x = 5
 #'   x^2
 #' })
 #' res$candidate(foo = {
-#'   Sys.sleep(5)
+#'   Sys.sleep(2)
 #'   y = 5
 #'   y^3
 #' }, bar = {
-#'   Sys.sleep(5)
+#'   Sys.sleep(2)
 #'   w = 1000
 #'   (w - 20) / 34
 #' })
@@ -102,6 +108,7 @@
 #' res$control_result
 #' res$candidate_results
 #' res$result()
+#' res$times
 #' # publish results
 #' res$publish()
 #'
@@ -121,6 +128,23 @@
 #' res$candidate_results
 #' res$result()
 #' res$publish()
+#' 
+#' # if not waiting, run $status() and $collect()
+#' res <- Experiment$new(name = "junipers", wait = FALSE)
+#' res$control({
+#'   x = 5
+#'   x^2
+#' })
+#' res$candidate({
+#'   y = 5
+#'   y^3
+#' })
+#' \dontrun{res$status()}
+#' res$run()
+#' res
+#' res$status()
+#' res$collect()
+#' res$result()
 #'
 #' # set explicit comparison
 #' # FIXME: not working yet
@@ -151,15 +175,26 @@ Experiment <- R6::R6Class(
     error_on_mismatch = FALSE,
     progress = FALSE,
     comparison_result = NULL,
+    waiting = TRUE,
 
-    initialize = function(name, error_on_mismatch = FALSE, progress = TRUE) {
+    initialize = function(name, error_on_mismatch = FALSE,
+      wait = TRUE, progress = FALSE) {
+
+      assert(name, "character")
+      assert(error_on_mismatch, "logical")
+      assert(wait, "logical")
+      assert(progress, "logical")
       self$name <- name
       self$error_on_mismatch <- error_on_mismatch
+      self$waiting <- wait
       self$progress <- progress
     },
 
     print = function(...) {
       private$c(paste0("<Experiment> ", self$name))
+      private$c(paste0(" error on mismatch?: ", self$error_on_mismatch))
+      private$c(paste0(" waiting?: ", self$waiting))
+      private$c(paste0(" progress?: ", self$progress))
       private$c(paste0("  control: ", private$sp(self$control_block)))
       if (!is.null(self$candidate_blocks)) {
         for (i in seq_along(self$candidate_blocks)) {
@@ -171,26 +206,67 @@ Experiment <- R6::R6Class(
       invisible(self)
     },
 
+    # call_block = function(...) {
+    #   ctrlt <- system.time(self$control_result <- private$r(self$control_block))
+    #   candt <- vector(mode = "list", length = length(self$candidate_blocks))
+    #   for (i in seq_along(self$candidate_blocks)) {
+    #     candt[[i]] <- system.time(
+    #       self$candidate_results[[ names(self$candidate_blocks)[i] %|i|% i ]] <-
+    #         private$r(self$candidate_blocks[[i]])
+    #     )
+    #   }
+    #   self$candidate_results <- as.list(self$candidate_results)
+    #   self$times <- list(
+    #     control_time = ctrlt[["elapsed"]],
+    #     candidate_times = vapply(candt, "[[", numeric(1), "elapsed")
+    #   )
+    # },
+
     call_block = function(...) {
-      ctrlt <- system.time(self$control_result <- private$r(self$control_block))
+      private$control_bg <- private$r_bg(self$control_block, ...)
       candt <- vector(mode = "list", length = length(self$candidate_blocks))
       for (i in seq_along(self$candidate_blocks)) {
-        candt[[i]] <- system.time(
-          self$candidate_results[[ names(self$candidate_blocks)[i] %|i|% i ]] <- 
-            private$r(self$candidate_blocks[[i]])
-        )
+          private$candidate_bg[[ names(self$candidate_blocks)[i] %|i|% i ]] <-
+            private$r_bg(self$candidate_blocks[[i]], ...)
       }
-      self$candidate_results <- as.list(self$candidate_results)
-      self$times <- list(
-        control_time = ctrlt[["elapsed"]],
-        candidate_times = vapply(candt, "[[", numeric(1), "elapsed")
-      )
+      if (self$waiting) {
+        message("waiting ...")
+        self$times <- list(control_time = private$wait_time(private$control_bg))
+        self$times <- c(self$times,
+          list(candidate_times = lapply(private$candidate_bg, private$wait_time)))
+        message("done ...")
+
+        self$control_result <- private$control_bg$get_result()
+        for (i in seq_along(private$candidate_bg)) {
+          self$candidate_results[[ names(self$candidate_blocks)[i] %|i|% i ]] <-
+            private$candidate_bg[[i]]$get_result()
+        }
+      }
+    },
+
+    status = function() {
+      if (is.null(private$control_bg)) stop("experiment not run yet")
+      structure(list(
+        control = !private$control_bg$is_alive(),
+        candidates = lapply(private$candidate_bg, function(z) !z$is_alive())
+      ), class = "exp_status")
+    },
+    collect = function() {
+      private$all_done_check()
+      self$times <- list(control_time = private$run_time(private$control_bg))
+      self$times <- c(self$times,
+        list(candidate_times = lapply(private$candidate_bg, private$run_time)))
+      self$control_result <- private$control_bg$get_result()
+      for (i in seq_along(private$candidate_bg)) {
+        self$candidate_results[[ names(self$candidate_blocks)[i] %|i|% i ]] <-
+          private$candidate_bg[[i]]$get_result()
+      }
     },
 
     control = function(...) self$control_block <- lazyeval::lazy_dots(...),
     candidate = function(...) self$candidate_blocks <- lazyeval::lazy_dots(...),
-    run = function() {
-      self$call_block()
+    run = function(...) {
+      self$call_block(...)
       self$do_comparison()
     },
     compare = function(x = NULL) {
@@ -229,8 +305,11 @@ Experiment <- R6::R6Class(
       # FIXME: use self$diff() here to prepare diffs for viewing
       check_for_a_pkg("whisker")
       # html <- glue::glue(html_template, .envir = self$result())
+      private$all_done_check()
       res <- self$result()
+      res$control$time <- res$control$time$duration
       res$candidates <- unname(res$candidates)
+      for (i in seq_along(res$candidates)) res$candidates[[i]]$time <- res$candidates[[i]]$time$duration
       html <- whisker::whisker.render(html_template, data = res)
       file <- tempfile(fileext = ".html")
       writeLines(html, file)
@@ -243,7 +322,7 @@ Experiment <- R6::R6Class(
       # check that classes of returned data are the same
       clz_control <- class(res$control$result[[1]])
       clz_candidates <- vapply(res$candidates, function(w) class(w$result), "")
-      if (any(clz_control != clz_candidates)) 
+      if (any(clz_control != clz_candidates))
         stop("at least some object classes not the same", call. = FALSE)
       # FIXME
       # do the diff
@@ -253,12 +332,42 @@ Experiment <- R6::R6Class(
   ),
 
   private = list(
-    r = function(m) {
-      callr::r(function(w) lazyeval::lazy_eval(w), args = list(m))
+    control_bg = NULL,
+    candidate_bg = NULL,
+    r = function(m, ...) {
+      callr::r(function(w) lazyeval::lazy_eval(w), args = list(m), ...)
+    },
+    r_bg = function(m, ...) {
+      callr::r_bg(function(w) lazyeval::lazy_eval(w), args = list(m), ...)
     },
     sp = function(x) {
       if (is.null(x)) "<not assigned>" else names(x) %||% "<unnamed>"
     },
-    c = function(...) cat(..., sep = "\n")
+    c = function(...) cat(..., sep = "\n"),
+    wait_time = function(x) {
+      x$wait()
+      et <- Sys.time()
+      end_time <- as.POSIXlt(et, tz = "GMT")
+      start_time <- x$get_start_time()
+      list(start = start_time, end = end_time,
+        duration = as.numeric(end_time - start_time))
+    },
+    run_time = function(x) {
+      start_time <- x$get_start_time()
+      list(start = start_time, end = NA, duration = NA)
+    },
+    all_done = function() all(unlist(self$status(), TRUE)),
+    all_done_check = function(x) if (!private$all_done()) stop("not all experiments done, see $status()")
   )
 )
+
+print.exp_status <- function(x, ...) {
+  cat("<experiment status>", sep = "\n")
+  cat(paste0("  control done?: ", x$control), sep = "\n")
+  cat("  candidates done?: ", sep = "\n")
+  for (i in seq_along(x$candidates)) {
+    cat(sprintf("    %s: %s", names(x$candidates)[i] %||% NA_character_,
+      x$candidates[[i]]),
+      sep = "\n")
+  }
+}

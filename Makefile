@@ -25,3 +25,6 @@ eg:
 
 check:
 	${RSCRIPT} -e "devtools::check(document = FALSE, cran = TRUE)"
+
+readme:
+	${RSCRIPT} -e "knitr::knit('README.Rmd')"
