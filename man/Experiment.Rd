@@ -138,10 +138,6 @@ res$candidate({
 })
 res
 \dontrun{res$run()}
-res$control_result
-res$candidate_results
-res$result()
-res$publish()
 
 # if not waiting, run $status() and $collect()
 res <- Experiment$new(name = "junipers", wait = FALSE)
@@ -157,7 +153,7 @@ res$candidate({
 res$run()
 res
 res$status()
-res$collect()
+\dontrun{res$collect()}
 res$result()
 
 # set explicit comparison
