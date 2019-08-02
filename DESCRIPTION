@@ -14,10 +14,14 @@ LazyData: true
 Roxygen: list(markdown = TRUE)
 Imports:
     R6,
-    callr
+    callr,
+    lazyeval
 Suggests:
     testthat,
     crayon,
     cli,
     whisker
 RoxygenNote: 6.1.1
+X-schema.org-applicationCategory: Reproducibility
+X-schema.org-keywords: reproducibility, experiment, code
+X-schema.org-isPartOf: https://ropensci.org

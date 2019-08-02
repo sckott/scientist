@@ -3,3 +3,5 @@
 export(Experiment)
 importFrom(R6,R6Class)
 importFrom(callr,r)
+importFrom(lazyeval,lazy_dots)
+importFrom(lazyeval,lazy_eval)
