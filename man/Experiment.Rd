@@ -3,7 +3,7 @@
 \docType{data}
 \name{Experiment}
 \alias{Experiment}
-\title{Set up an experiment}
+\title{Experiment}
 \arguments{
 \item{name}{The name of the experiment}
 
@@ -21,7 +21,7 @@ default: \code{TRUE} (IGNORED RIGHT NOW)}
 an object of class \code{Experiment}
 }
 \description{
-Set up an experiment
+Experiment
 }
 \details{
 \strong{Methods}

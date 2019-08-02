@@ -1,4 +1,4 @@
-#' Set up an experiment
+#' Experiment
 #'
 #' @export
 #' @param name The name of the experiment
