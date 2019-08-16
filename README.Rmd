@@ -45,7 +45,7 @@ each version takes, and visually diff results.
 
 Using `scientist` you can compare these two functions like:
 
-```r
+```{r eval=FALSE}
 a <- Experiment$new(name = "compare_code")
 a$control(v1 = {
   out <- data.frame(letter = NA_character_, LETTER = NA_character_,
@@ -68,13 +68,13 @@ a
 
 Then we can run the "experiment"
 
-```r
+```{r eval=FALSE}
 a$run()
 ```
 
 The compare results
 
-```r
+```{r eval=FALSE}
 a$diff()
 ```
 

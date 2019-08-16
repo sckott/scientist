@@ -38,6 +38,7 @@ each version takes, and visually diff results.
 
 Using `scientist` you can compare these two functions like:
 
+
 ```r
 a <- Experiment$new(name = "compare_code")
 a$control(v1 = {
@@ -61,11 +62,13 @@ a
 
 Then we can run the "experiment"
 
+
 ```r
 a$run()
 ```
 
 The compare results
+
 
 ```r
 a$diff()
@@ -196,13 +199,13 @@ res$result()
 #> 
 #> $control$time
 #> $control$time$start
-#> [1] "2019-08-16 22:31:04 GMT"
+#> [1] "2019-08-16 22:31:57 GMT"
 #> 
 #> $control$time$end
-#> [1] "2019-08-16 22:31:04 GMT"
+#> [1] "2019-08-16 22:31:58 GMT"
 #> 
 #> $control$time$duration
-#> [1] 0.2500541
+#> [1] 0.2149801
 #> 
 #> 
 #> 
@@ -213,13 +216,13 @@ res$result()
 #> 
 #> $candidates[[1]]$time
 #> $candidates[[1]]$time$start
-#> [1] "2019-08-16 22:31:04 GMT"
+#> [1] "2019-08-16 22:31:57 GMT"
 #> 
 #> $candidates[[1]]$time$end
-#> [1] "2019-08-16 22:31:04 GMT"
+#> [1] "2019-08-16 22:31:58 GMT"
 #> 
 #> $candidates[[1]]$time$duration
-#> [1] 0.246084
+#> [1] 0.209497
 #> 
 #> 
 #> $candidates[[1]]$name
