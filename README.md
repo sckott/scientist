@@ -23,8 +23,8 @@ unit tests in that it aims to tell you **how** changes in your code
 fast your code runs, but it does include comparison of run times
 as a tool for decision making about what version to use
 
-
-## Use cases
+ 
+## Use cases (click to expand)
 
 <details> <summary><strong>Code block</strong></summary> <p>
 
@@ -67,7 +67,7 @@ Then we can run the "experiment"
 a$run()
 ```
 
-The compare results
+Then compare results
 
 
 ```r
@@ -78,7 +78,7 @@ a$diff()
 
 </p></details>
 
-### Scripts
+<details> <summary><strong>Scripts</strong></summary> <p>
 
 You have an R script, let's call it `code.R`. Just as above with the code
 example, you want to make a change to the script. Instead of using
@@ -93,7 +93,9 @@ b$control(file = "code.R")
 b$candidate(file = "code_new.R")
 ```
 
-### Packages
+</p></details>
+
+<details> <summary><strong>Packages</strong></summary> <p>
 
 You have a package, let's call it `foobar`. You want to change a function
 in `foobar` called `stuff()`. You can make a new version of that function
@@ -107,6 +109,8 @@ res <- Experiment$new(name = "compare_stuff")
 res$control(stuff(x = 5))
 res$candidate(stuff_new(x = 5))
 ```
+
+</p></details>
 
 
 
@@ -199,13 +203,13 @@ res$result()
 #> 
 #> $control$time
 #> $control$time$start
-#> [1] "2019-08-16 22:31:57 GMT"
+#> [1] "2019-08-16 22:35:29 GMT"
 #> 
 #> $control$time$end
-#> [1] "2019-08-16 22:31:58 GMT"
+#> [1] "2019-08-16 22:35:29 GMT"
 #> 
 #> $control$time$duration
-#> [1] 0.2149801
+#> [1] 0.2774851
 #> 
 #> 
 #> 
@@ -216,13 +220,13 @@ res$result()
 #> 
 #> $candidates[[1]]$time
 #> $candidates[[1]]$time$start
-#> [1] "2019-08-16 22:31:57 GMT"
+#> [1] "2019-08-16 22:35:29 GMT"
 #> 
 #> $candidates[[1]]$time$end
-#> [1] "2019-08-16 22:31:58 GMT"
+#> [1] "2019-08-16 22:35:29 GMT"
 #> 
 #> $candidates[[1]]$time$duration
-#> [1] 0.209497
+#> [1] 0.2755749
 #> 
 #> 
 #> $candidates[[1]]$name
