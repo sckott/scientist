@@ -274,7 +274,7 @@ Experiment <- R6::R6Class(
         comp <- eval(self$compare_fun)
         stopifnot(is.logical(comp) && length(comp) == 1)
       } else {
-        comp <- identical(self$control_result, self$candidate_results)
+        comp <- identical(self$control_result[[1]], self$candidate_results[[1]])
       }
 
       if (!comp && self$error_on_mismatch) {
@@ -322,7 +322,19 @@ Experiment <- R6::R6Class(
         stop("at least some object classes not the same", call. = FALSE)
       # FIXME
       # do the diff
-      res$control$result
+      # res$control$result
+      if (clz_control == "data.frame") {
+        check_for_a_pkg("visdat")
+        if (
+          NCOL(res$control$result[[1]]) == 1 ||
+          NCOL(res$candidates[[1]]$result) == 1
+        ) {
+          stop("visdat::vis_compare doesn't support single column data.frame's")
+        }
+        visdat::vis_compare(res$control$result[[1]], res$candidates[[1]]$result)
+      } else {
+        stop("only class 'data.frame' supported for now")
+      }
     }
 
   ),

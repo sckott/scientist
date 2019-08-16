@@ -20,7 +20,8 @@ Suggests:
     testthat,
     crayon,
     cli,
-    whisker
+    whisker,
+    visdat
 RoxygenNote: 6.1.1
 X-schema.org-applicationCategory: Reproducibility
 X-schema.org-keywords: reproducibility, experiment, code
