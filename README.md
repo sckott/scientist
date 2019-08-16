@@ -82,7 +82,8 @@ a$diff()
 
 You have an R script, let's call it `code.R`. Just as above with the code
 example, you want to make a change to the script. Instead of using
-code blocks as input, you can use file names.
+code blocks as input, you can use file names. (NOTE: file names
+not supported yet, see [issue #7](https://github.com/ropenscilabs/scientist/issues/7))
 
 Using `scientist` you can compare these two functions with:
 
@@ -98,7 +99,7 @@ b$candidate(file = "code_new.R")
 <details> <summary><strong>Packages</strong></summary> <p>
 
 You have a package, let's call it `foobar`. You want to change a function
-in `foobar` called `stuff()`. You can make a new version of that function
+in `foobar` called `stuff()`. You make a new version of that function
 called `stuff_new()`.
 
 Using `scientist` you can compare these two functions with:
@@ -106,9 +107,13 @@ Using `scientist` you can compare these two functions with:
 
 ```r
 res <- Experiment$new(name = "compare_stuff")
-res$control(stuff(x = 5))
-res$candidate(stuff_new(x = 5))
+res$control(foobar::stuff(x = 5))
+res$candidate(foobar::stuff_new(x = 5))
 ```
+
+(NOTE: functions not supported yet per se, see 
+[issue #8](https://github.com/ropenscilabs/scientist/issues/8); although
+you can call functions just like code blocks)
 
 </p></details>
 
@@ -203,13 +208,13 @@ res$result()
 #> 
 #> $control$time
 #> $control$time$start
-#> [1] "2019-08-16 22:35:29 GMT"
+#> [1] "2019-08-16 22:41:09 GMT"
 #> 
 #> $control$time$end
-#> [1] "2019-08-16 22:35:29 GMT"
+#> [1] "2019-08-16 22:41:10 GMT"
 #> 
 #> $control$time$duration
-#> [1] 0.2774851
+#> [1] 0.212528
 #> 
 #> 
 #> 
@@ -220,13 +225,13 @@ res$result()
 #> 
 #> $candidates[[1]]$time
 #> $candidates[[1]]$time$start
-#> [1] "2019-08-16 22:35:29 GMT"
+#> [1] "2019-08-16 22:41:10 GMT"
 #> 
 #> $candidates[[1]]$time$end
-#> [1] "2019-08-16 22:35:29 GMT"
+#> [1] "2019-08-16 22:41:10 GMT"
 #> 
 #> $candidates[[1]]$time$duration
-#> [1] 0.2755749
+#> [1] 0.2025831
 #> 
 #> 
 #> $candidates[[1]]$name
