@@ -82,10 +82,10 @@ a$diff()
 
 You have an R script, let's call it `code.R`. Just as above with the code
 example, you want to make a change to the script. Instead of using
-code blocks as input, you can use file names. (NOTE: file names
+code blocks as input as above, you can use file names. (NOTE: file names
 not supported yet, see [issue #7](https://github.com/ropenscilabs/scientist/issues/7))
 
-Using `scientist` you can compare these two functions with:
+Using `scientist` you can compare these two scripts with:
 
 
 ```r
@@ -94,13 +94,17 @@ b$control(file = "code.R")
 b$candidate(file = "code_new.R")
 ```
 
+> note: above code doesn't work yet
+
 </p></details>
 
 <details> <summary><strong>Packages</strong></summary> <p>
 
 You have a package, let's call it `foobar`. You want to change a function
 in `foobar` called `stuff()`. You make a new version of that function
-called `stuff_new()`.
+called `stuff_new()`. (NOTE: functions not supported yet per se, see 
+[issue #8](https://github.com/ropenscilabs/scientist/issues/8); although
+you can call functions just like code blocks)
 
 Using `scientist` you can compare these two functions with:
 
@@ -111,9 +115,8 @@ res$control(foobar::stuff(x = 5))
 res$candidate(foobar::stuff_new(x = 5))
 ```
 
-(NOTE: functions not supported yet per se, see 
-[issue #8](https://github.com/ropenscilabs/scientist/issues/8); although
-you can call functions just like code blocks)
+> note: above is pseudocode, as foobar is not a real package; though
+> you can try functions from a real package
 
 </p></details>
 
@@ -208,13 +211,13 @@ res$result()
 #> 
 #> $control$time
 #> $control$time$start
-#> [1] "2019-08-16 22:41:09 GMT"
+#> [1] "2019-08-20 22:31:40 GMT"
 #> 
 #> $control$time$end
-#> [1] "2019-08-16 22:41:10 GMT"
+#> [1] "2019-08-20 22:31:41 GMT"
 #> 
 #> $control$time$duration
-#> [1] 0.212528
+#> [1] 0.2222421
 #> 
 #> 
 #> 
@@ -225,13 +228,13 @@ res$result()
 #> 
 #> $candidates[[1]]$time
 #> $candidates[[1]]$time$start
-#> [1] "2019-08-16 22:41:10 GMT"
+#> [1] "2019-08-20 22:31:40 GMT"
 #> 
 #> $candidates[[1]]$time$end
-#> [1] "2019-08-16 22:41:10 GMT"
+#> [1] "2019-08-20 22:31:41 GMT"
 #> 
 #> $candidates[[1]]$time$duration
-#> [1] 0.2025831
+#> [1] 0.2216799
 #> 
 #> 
 #> $candidates[[1]]$name
