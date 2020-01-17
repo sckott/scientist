@@ -2,11 +2,11 @@ Package: scientist
 Title: Experiment with changes in an R project
 Description: Experiment with changes in an R project. A port of the Ruby gem
     of the same name (<https://github.com/github/scientist/>).
-Version: 0.0.1.9100
+Version: 0.0.1.93
 Authors@R: c(person("Scott", "Chamberlain", role = c("aut", "cre"),
     email = "sckott@protonmail.com", 
     comment = c(ORCID="0000-0003-1444-9135")))
-URL: https://github.com/ropenscilabs/scientist/
+URL: https://github.com/ropenscilabs/scientist, https://docs.ropensci.org/scientist
 BugReports: https://github.com/ropenscilabs/scientist/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
@@ -22,7 +22,7 @@ Suggests:
     cli,
     whisker,
     visdat
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 X-schema.org-applicationCategory: Reproducibility
 X-schema.org-keywords: reproducibility, experiment, code
 X-schema.org-isPartOf: https://ropensci.org
