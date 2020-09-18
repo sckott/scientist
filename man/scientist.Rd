@@ -5,9 +5,6 @@
 \alias{scientist}
 \alias{scientist-package}
 \title{scientist}
-\description{
-scientist
-}
 \author{
 Scott Chamberlain \email{sckott@protonmail.com}
 }

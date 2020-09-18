@@ -83,7 +83,7 @@ a$diff()
 You have an R script, let's call it `code.R`. Just as above with the code
 example, you want to make a change to the script. Instead of using
 code blocks as input as above, you can use file names. (NOTE: file names
-not supported yet, see [issue #7](https://github.com/ropenscilabs/scientist/issues/7))
+not supported yet, see [issue #7](https://github.com/sckott/scientist/issues/7))
 
 Using `scientist` you can compare these two scripts with:
 
@@ -103,7 +103,7 @@ b$candidate(file = "code_new.R")
 You have a package, let's call it `foobar`. You want to change a function
 in `foobar` called `stuff()`. You make a new version of that function
 called `stuff_new()`. (NOTE: functions not supported yet per se, see 
-[issue #8](https://github.com/ropenscilabs/scientist/issues/8); although
+[issue #8](https://github.com/sckott/scientist/issues/8); although
 you can call functions just like code blocks)
 
 Using `scientist` you can compare these two functions with:
@@ -126,7 +126,7 @@ res$candidate(foobar::stuff_new(x = 5))
 
 
 ```r
-remotes::install_github("ropenscilabs/scientist")
+remotes::install_github("sckott/scientist")
 ```
 
 
@@ -192,6 +192,7 @@ res$control_result
 #> [[1]]
 #> [1] 25
 res$candidate_results
+#> [[1]]
 #> [1] 125
 ```
 
@@ -211,13 +212,13 @@ res$result()
 #> 
 #> $control$time
 #> $control$time$start
-#> [1] "2019-08-20 22:31:40 GMT"
+#> [1] "2020-09-18 01:05:12 GMT"
 #> 
 #> $control$time$end
-#> [1] "2019-08-20 22:31:41 GMT"
+#> [1] "2020-09-18 01:05:13 GMT"
 #> 
 #> $control$time$duration
-#> [1] 0.2222421
+#> [1] 0.680455
 #> 
 #> 
 #> 
@@ -228,13 +229,13 @@ res$result()
 #> 
 #> $candidates[[1]]$time
 #> $candidates[[1]]$time$start
-#> [1] "2019-08-20 22:31:40 GMT"
+#> [1] "2020-09-18 01:05:12 GMT"
 #> 
 #> $candidates[[1]]$time$end
-#> [1] "2019-08-20 22:31:41 GMT"
+#> [1] "2020-09-18 01:05:13 GMT"
 #> 
 #> $candidates[[1]]$time$duration
-#> [1] 0.2216799
+#> [1] 0.7593031
 #> 
 #> 
 #> $candidates[[1]]$name
@@ -257,12 +258,10 @@ res$publish()
 
 ## Meta
 
-* Please [report any issues or bugs](https://github.com/ropensci/scientist/issues)
+* Please [report any issues or bugs](https://github.com/sckott/scientist/issues)
 * License: MIT
 * Get citation information for `scientist` in R doing `citation(package = 'scientist')`
 * Please note that this project is released with a [Contributor Code of Conduct][coc]. By participating in this project you agree to abide by its terms.
 
-[![ropensci_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org)
 
-
-[coc]: https://github.com/ropenscilabs/scientist/blob/master/CODE_OF_CONDUCT.md
+[coc]: https://github.com/sckott/scientist/blob/master/CODE_OF_CONDUCT.md

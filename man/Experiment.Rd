@@ -26,7 +26,7 @@ execute code, runs \code{call_block()}, then \code{do_comparison()}
 \code{\link[callr:r]{callr::r()}} (\code{wait=TRUE}) or \code{\link[callr:r_bg]{callr::r_bg()}} (\code{wait=FALSE})
 }
 \item{\code{call_block()}}{
-execute code, and collecting timing data
+execute code, and collect timing data
 }
 \item{\code{do_comparison()}}{
 mostly an internal fxn, run after \code{call_block}
@@ -182,6 +182,7 @@ res$result()
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
+\if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Experiment$new(name, error_on_mismatch = FALSE, wait = TRUE, progress = FALSE)}\if{html}{\out{</div>}}
@@ -207,6 +208,7 @@ default: \code{TRUE} (IGNORED RIGHT NOW)}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-print"></a>}}
+\if{latex}{\out{\hypertarget{method-print}{}}}
 \subsection{Method \code{print()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Experiment$print(...)}\if{html}{\out{</div>}}
@@ -215,6 +217,7 @@ default: \code{TRUE} (IGNORED RIGHT NOW)}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-call_block"></a>}}
+\if{latex}{\out{\hypertarget{method-call_block}{}}}
 \subsection{Method \code{call_block()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Experiment$call_block(...)}\if{html}{\out{</div>}}
@@ -223,6 +226,7 @@ default: \code{TRUE} (IGNORED RIGHT NOW)}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-status"></a>}}
+\if{latex}{\out{\hypertarget{method-status}{}}}
 \subsection{Method \code{status()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Experiment$status()}\if{html}{\out{</div>}}
@@ -231,6 +235,7 @@ default: \code{TRUE} (IGNORED RIGHT NOW)}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-collect"></a>}}
+\if{latex}{\out{\hypertarget{method-collect}{}}}
 \subsection{Method \code{collect()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Experiment$collect()}\if{html}{\out{</div>}}
@@ -239,6 +244,7 @@ default: \code{TRUE} (IGNORED RIGHT NOW)}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-control"></a>}}
+\if{latex}{\out{\hypertarget{method-control}{}}}
 \subsection{Method \code{control()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Experiment$control(...)}\if{html}{\out{</div>}}
@@ -247,6 +253,7 @@ default: \code{TRUE} (IGNORED RIGHT NOW)}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-candidate"></a>}}
+\if{latex}{\out{\hypertarget{method-candidate}{}}}
 \subsection{Method \code{candidate()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Experiment$candidate(...)}\if{html}{\out{</div>}}
@@ -255,6 +262,7 @@ default: \code{TRUE} (IGNORED RIGHT NOW)}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-run"></a>}}
+\if{latex}{\out{\hypertarget{method-run}{}}}
 \subsection{Method \code{run()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Experiment$run(...)}\if{html}{\out{</div>}}
@@ -263,6 +271,7 @@ default: \code{TRUE} (IGNORED RIGHT NOW)}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-compare"></a>}}
+\if{latex}{\out{\hypertarget{method-compare}{}}}
 \subsection{Method \code{compare()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Experiment$compare(x = NULL)}\if{html}{\out{</div>}}
@@ -271,6 +280,7 @@ default: \code{TRUE} (IGNORED RIGHT NOW)}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-do_comparison"></a>}}
+\if{latex}{\out{\hypertarget{method-do_comparison}{}}}
 \subsection{Method \code{do_comparison()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Experiment$do_comparison()}\if{html}{\out{</div>}}
@@ -279,6 +289,7 @@ default: \code{TRUE} (IGNORED RIGHT NOW)}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-result"></a>}}
+\if{latex}{\out{\hypertarget{method-result}{}}}
 \subsection{Method \code{result()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Experiment$result()}\if{html}{\out{</div>}}
@@ -287,6 +298,7 @@ default: \code{TRUE} (IGNORED RIGHT NOW)}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-publish"></a>}}
+\if{latex}{\out{\hypertarget{method-publish}{}}}
 \subsection{Method \code{publish()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Experiment$publish(browse = TRUE)}\if{html}{\out{</div>}}
@@ -295,6 +307,7 @@ default: \code{TRUE} (IGNORED RIGHT NOW)}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-diff"></a>}}
+\if{latex}{\out{\hypertarget{method-diff}{}}}
 \subsection{Method \code{diff()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Experiment$diff()}\if{html}{\out{</div>}}
@@ -303,6 +316,7 @@ default: \code{TRUE} (IGNORED RIGHT NOW)}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

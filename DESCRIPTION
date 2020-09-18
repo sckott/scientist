@@ -6,8 +6,8 @@ Version: 0.0.1.93
 Authors@R: c(person("Scott", "Chamberlain", role = c("aut", "cre"),
     email = "sckott@protonmail.com", 
     comment = c(ORCID="0000-0003-1444-9135")))
-URL: https://github.com/ropenscilabs/scientist, https://docs.ropensci.org/scientist
-BugReports: https://github.com/ropenscilabs/scientist/issues
+URL: https://github.com/sckott/scientist, https://sckott.github.io/scientist/
+BugReports: https://github.com/sckott/scientist/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -22,7 +22,6 @@ Suggests:
     cli,
     whisker,
     visdat
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
 X-schema.org-applicationCategory: Reproducibility
 X-schema.org-keywords: reproducibility, experiment, code
-X-schema.org-isPartOf: https://ropensci.org
