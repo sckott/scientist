@@ -26,7 +26,7 @@
 #'         [callr::r()] (`wait=TRUE`) or [callr::r_bg()] (`wait=FALSE`)
 #'     }
 #'     \item{\code{call_block()}}{
-#'       execute code, and collecting timing data
+#'       execute code, and collect timing data
 #'     }
 #'     \item{\code{do_comparison()}}{
 #'       mostly an internal fxn, run after `call_block`
